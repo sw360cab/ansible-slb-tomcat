@@ -1,0 +1,12 @@
+---
+# This role contains common plays that will run on all nodes.
+
+- name: Check if root login is enabled
+  command: /usr/bin/diff .ssh/authorized_keys /root/.ssh/authorized_keys
+  ignore_errors: yes # when diff is not empty diff returns -> exit 1
+  register: result
+  changed_when: result.stdout != ""
+  
+- name: Enable root login
+  command: /bin/cp .ssh/authorized_keys /root/.ssh/authorized_keys
+  when: result.stdout != ""

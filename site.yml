@@ -1,0 +1,25 @@
+---
+# This playbook deploys as an example two Tomcat instances on AWS.  
+# it's just an example
+
+# Configure and deploy tomcat
+- hosts: tomcat-server
+  vars_files: 
+    - roles/tomcat/vars/main.yml
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - common
+    - tomcat
+    - nagios-slave
+    
+# Configure and deploy HAProxy
+- hosts: haproxy-server
+  vars_files: 
+    - roles/tomcat/vars/main.yml
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - common
+    - haproxy
+    - nagios

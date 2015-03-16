@@ -1,0 +1,21 @@
+---
+# Variables for the HAproxy configuration
+
+# HAProxy supports "http" and "tcp". For SSL, SMTP, etc, use "tcp".
+mode: http
+
+# Port on which HAProxy should listen
+listenport: 8888
+
+# A name for the proxy daemon, this wil be the suffix in the logs.
+daemonname: tomcat_balance
+
+# Balancing Algorithm. Available options:
+# roundrobin, source, leastconn, source, uri
+# (if persistance is required use, "source")
+balance: roundrobin 
+
+# Username & Password for stats
+# in HAProxy
+ha_stats_user: hauser
+ha_stats_pwd: 0UzLB2gI

@@ -1,0 +1,40 @@
+---
+
+service_name: haproxy
+service_port:
+  - 22
+  - 80
+  - 8888
+  - 1936
+  - 5666
+security_rules:
+  - proto: tcp
+    from_port: 22
+    to_port: 22
+    cidr_ip: 0.0.0.0/0
+  - proto: tcp
+    from_port: 80
+    to_port: 80
+    cidr_ip: 0.0.0.0/0
+  - proto: tcp
+    from_port: 8888
+    to_port: 8888
+    cidr_ip: 0.0.0.0/0
+  - proto: tcp
+    from_port: 1936
+    to_port: 1936
+    cidr_ip: 0.0.0.0/0
+  - proto: tcp
+    from_port: 5666
+    to_port: 5666
+    cidr_ip: 0.0.0.0/0
+  - proto: icmp
+    from_port: -1
+    to_port: -1
+    cidr_ip: 0.0.0.0/0
+
+service_group: haproxy-server
+instances_to_lauch: 1
+tag_ec2_name: haproxy
+tag_ec2_group: "{{ service_name }}"
+

@@ -1,0 +1,14 @@
+---
+
+keypair: wimlabs
+region: us-east-1
+instance_type: t2.micro
+image: ami-9eaa1cf6 # Ubuntu Server 14.04 LTS (HVM), SSD Volume Type
+tag_ec2_current: launched
+subnets:
+- subnet-fbe306d0
+vpc_id: vpc-9ed752fb
+
+#ami: ami-8d756fe4
+
+

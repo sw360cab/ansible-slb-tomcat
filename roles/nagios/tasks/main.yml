@@ -1,0 +1,21 @@
+---
+# This role installs Nagios and configures it.
+
+- name: Install Nagios
+  apt: name={{ item }} update_cache=yes
+  with_items:
+  - nagios3 
+  - nagios-plugins-contrib
+  - nagios-nrpe-plugin
+  - nagios-snmp-plugins
+  - nagios-plugins-extra
+  
+- name: Set htpasswd password
+  shell: /usr/bin/htpasswd -bmc /etc/nagios3/htpasswd.users {{ nagios3_user }} {{ nagios3_pwd }}
+
+- name: Configure Nagios
+  copy: src=nagios.cfg dest=/etc/nagios3/nagios.cfg
+
+- name: Create the Nagios object files
+  template: src=nrpe.cfg.j2 dest=/etc/nagios3/conf.d/nrpe.cfg
+  notify: restart nagios

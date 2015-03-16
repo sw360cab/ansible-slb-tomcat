@@ -1,0 +1,27 @@
+{% for host in groups['tag_Group_tomcat'] %}
+
+define host{
+        use                     generic-host
+        host_name               server-{{ hostvars[host]['ec2_private_ip_address'] }}
+        alias                   server-{{ hostvars[host]['ec2_private_ip_address'] }}
+        address                 {{ hostvars[host]['ansible_' +  ansible_default_ipv4.interface ].ipv4.address }}        
+}
+
+define service {
+        host_name               server-{{ hostvars[host]['ec2_private_ip_address'] }}
+        service_description     Check Load
+        check_command           check_nrpe_1arg!check_load
+        check_interval          1
+        use                     generic-service
+}
+
+define service {
+        host_name               server-{{ hostvars[host]['ec2_private_ip_address'] }}
+        service_description     Check Total Procs
+        check_command           check_nrpe_1arg!check_total_procs
+        check_interval          1
+        use                     generic-service
+}
+
+{% endfor %}
+

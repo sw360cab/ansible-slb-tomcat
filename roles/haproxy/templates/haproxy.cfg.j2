@@ -1,0 +1,44 @@
+global
+  log         127.0.0.1 local2 
+
+  chroot      /var/lib/haproxy
+  pidfile     /var/run/haproxy.pid
+  maxconn     4000
+  user        root
+  group       root
+  daemon
+
+  # turn on stats unix socket
+  stats socket /var/lib/haproxy/stats level admin
+
+defaults
+  mode                    {{ mode }}
+  log                     global
+  option                  httplog
+  option                  dontlognull
+  option http-server-close
+  option forwardfor       except 127.0.0.0/8
+  retries                 3
+  timeout http-request    10s
+  timeout queue           1m
+  timeout connect         10s
+  timeout client          1m
+  timeout server          1m
+  timeout http-keep-alive 10s
+  timeout check           10s
+  maxconn                 3000
+
+backend app
+{% for host in groups['tag_Group_haproxy'] %}
+  listen {{ daemonname }} {{ hostvars[host]['ansible_' + iface].ipv4.address }}:{{ listenport }}
+{% endfor %}
+  balance {{ balance }}
+{% for server in groups['tag_Group_tomcat'] %}
+  server {{ hostvars[server]['ec2_tag_Name'] }} {{ hostvars[server]['ec2_private_ip_address'] }}:{{ tomcatport }} check
+{% endfor %}
+
+listen stats *:1936
+  stats enable
+  stats uri /
+  stats hide-version
+  stats auth {{ ha_stats_user }}:{{ ha_stats_pwd }}

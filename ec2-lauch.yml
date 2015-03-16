@@ -1,0 +1,38 @@
+---
+# Launch EC2 Instances 
+#
+
+# Launch tomcat instances
+- name: Create instances for Tomcat
+  hosts: 127.0.0.1
+  gather_facts: False
+  vars_files: 
+    - roles/ec2/vars/tomcat.yml
+  roles: 
+    - ec2
+
+# Launch haproxy instance
+- name: Create instance for HAProxy
+  hosts: 127.0.0.1
+  gather_facts: False
+  vars_files: 
+    - roles/ec2/vars/haproxy.yml
+  roles: 
+    - ec2
+ 
+# Launch config of services
+- include: site.yml
+
+#- name: Terminate instances
+#  hosts: 127.0.0.1
+#  connection: local
+#  vars_files: 
+#    - roles/ec2/vars/main.yml
+#  tasks:
+#    - name: Terminate instances that were previously launched
+#      local_action:
+#        module: ec2
+#        state: absent
+#        region: "{{region}}"
+#        instance_ids: "{{hostvars[item]['ec2_id']}}"
+#      with_items:  "groups['tag_Current_launched']"

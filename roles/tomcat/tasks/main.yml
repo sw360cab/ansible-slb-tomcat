@@ -1,0 +1,17 @@
+---
+- name: Install Tomcat7
+  apt: name=tomcat7 update_cache=yes
+
+- name: Install Tomcat7 Admin
+  apt: name=tomcat7-admin update_cache=yes
+
+- name: Configure Tomcat users
+  template: src=tomcat-users.xml dest=/etc/tomcat7/
+  notify: restart tomcat7
+
+- name: Copy custom index file to default webapp
+  template: src=index.html dest=/var/lib/tomcat7/webapps/ROOT/
+
+- name: Change Ownership of Tomcat home folder
+  shell: /bin/chown tomcat7:tomcat7 /usr/share/tomcat7 /var/lib/tomcat7 -R
+

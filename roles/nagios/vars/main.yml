@@ -1,0 +1,6 @@
+---
+# Variables for the Nagios3 configuration
+
+# Username & Password for Nagios Admin
+nagios3_user: nagiosadmin
+nagios3_pwd: 0UzLB2gI

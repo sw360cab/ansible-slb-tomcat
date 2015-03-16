@@ -1,0 +1,9 @@
+---
+# This role installs a Nagios Slave and configures it.
+
+- name: Install Nagios Nrpe
+  apt: name=nagios-nrpe-server update_cache=yes
+
+- name: Configure Nrpe
+  template: src=nrpe.cfg.j2 dest=/etc/nagios/nrpe.cfg
+  notify: restart nrpe
