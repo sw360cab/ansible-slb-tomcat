@@ -54,7 +54,7 @@ Now you are able to launch the playbook
     
 ## Notes
 
-* Templates and palybooks are massively compiled from variables yaml files. Remeber to check them before installing your inventory.
+* Templates and playbooks are massively compiled from variables yaml files. Remeber to check them before installing your inventory.
 
 ## Known Issues
 
